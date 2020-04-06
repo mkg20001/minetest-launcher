@@ -1,0 +1,19 @@
+!mods
+# Add monsters and dragons to your nether world.
+https://github.com/rael5/minetest-nether-monsters
+# A mod that adds quartz to minetest.
+https://github.com/minetest-mods/quartz
+# TNT mod
+https://github.com/Coder12a/tnt_revamped
+# A highly configurable mod providing item magnet and in-world node drops
+https://github.com/minetest-mods/item_drop
+# Minetest mod which combines the painting and banners mods with the 3d_armor modpack (specifically the main 3d_armor mod and optionally shields)
+https://github.com/evrooije/painted_3d_armor
+# Visible player armor & wielded items for minetest
+https://github.com/stujones11/minetest-3d_armor
+# Weather mod for minetest
+https://github.com/theFox6/minetest_mod_weather
+# A custom Lua-mapgen, with biomes, caves, villages, cliffs and ore generation.
+https://github.com/minetest-mods/mg
+!games
+https://github.com/minetest/minetest_game
