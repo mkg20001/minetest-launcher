@@ -15,6 +15,8 @@ module.exports = (cache) => ({
           return metadata[fetcher].fetch(url, urlParsed)
         }
       }
+
+      throw new Error('No suitable fetcher. Is URL valid?')
     })
   },
   fetchContentFromDL ({ type, args }) {
@@ -22,8 +24,8 @@ module.exports = (cache) => ({
       const tmp = await cache.getTmp()
       const out = await cache.getTmp()
 
-      await content[type].fetch(tmp.path, ...args)
-      await content[type].postProcess(tmp.path, out.path)
+      const res = await content[type].fetch(tmp.path, ...args)
+      await content[type].postProcess(tmp.path, out.path, res)
 
       tmp.clear()
       return out

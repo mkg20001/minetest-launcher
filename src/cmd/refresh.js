@@ -8,6 +8,7 @@ module.exports = async (folder) => {
   const fetch = Fetch(repo.cache)
 
   const { games, mods } = repo.mtms
+  console.log(games)
 
   for (let i = 0; i < games.length; i++) {
     const game = games[i]

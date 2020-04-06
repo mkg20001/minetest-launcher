@@ -77,10 +77,7 @@ This will pull all the mods, get the metadata (based on url/url type - .tar.gz, 
   },
   "depsResolved": {}, // this is the same as mods, just automatically added for all mods that a mod from mods depends on, so you can change the version
   "optionalDepsInclude": {}, // specify which optional mods to include/exclude (id-><bool>)
-  "game": {
-    "id": "<id>",
-    "version": "<version>"
-  },
+  "games": {}, // same as mods, except specify the games to inherit from
   "engine": {
     "version": "version"
   }

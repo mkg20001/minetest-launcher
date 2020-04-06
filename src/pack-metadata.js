@@ -114,7 +114,7 @@ function parseGame (folder) {
 function parseMTMS (file) {
   let cursor = null
 
-  return read(file).map(s => s.trim()).filter(s => s && !s.startsWith('#')).reduce((line, out) => {
+  return read(file).split('\n').map(s => s.trim()).filter(s => s && !s.startsWith('#')).reduce((out, line) => {
     if (line.startsWith('!')) {
       cursor = line.substr(1)
       out[cursor] = []
