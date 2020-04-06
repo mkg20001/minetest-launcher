@@ -28,6 +28,7 @@ This will pull all the mods, get the metadata (based on url/url type - .tar.gz, 
 {
   "mods": {
     "<id>": {
+      "src": "<url>",
       "versions": {
         "<version>": {
           "description": "Bla,,",
