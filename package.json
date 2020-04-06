@@ -1,0 +1,40 @@
+{
+  "name": "minetestlauncher",
+  "version": "0.0.1",
+  "description": "A launcher & maker for minetest games",
+  "main": "index.js",
+  "template": {
+    "extends": [
+      "node"
+    ]
+  },
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "test": "mocha -A",
+    "cov": "nyc mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mkg20001/minetest-launcher.git"
+  },
+  "keywords": [
+    "minetest",
+    "game",
+    "launcher"
+  ],
+  "author": "Maciej Krüger <mkg20001@gmail.com>",
+  "license": "MPL-2.0",
+  "bugs": {
+    "url": "https://github.com/mkg20001/minetest-launcher/issues"
+  },
+  "homepage": "https://github.com/mkg20001/minetest-launcher#readme",
+  "devDependencies": {
+    "mocha": "*",
+    "nyc": "*"
+  },
+  "dependencies": {
+    "mkgs-tool": "^0.1.6"
+  }
+}

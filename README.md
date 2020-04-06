@@ -155,3 +155,10 @@ mtm check # checks if all optional_deps and deps_resolved things are actually us
 mtm build # downloads everything, builds a game
 mtm play # launches mintest with the game
 ```
+
+# Todo
+- Finish fetching
+- Resolution
+- game-inherit:
+  - depend on the mods recursivly, sort out duplicates
+  - merge settingtypes.txt and others on build ?
