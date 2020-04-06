@@ -12,8 +12,9 @@ module.exports = async (folder) => {
   return {
     mtms: e((f) => parseMTMS(f), folder, 'list.mtms') || { games: [], mods: [] },
     meta: e((f) => JSON.parse(String(fs.readFileSync(f))), folder, 'modpack.json') || {
-      name: 'Unnamed pack',
-      description: 'Pack description here',
+      name: 'Unnamed game',
+      id: 'unnamed',
+      description: 'Game description here',
       license: 'License, e.x. GPL3',
       mods: {},
       games: {},

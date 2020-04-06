@@ -7,7 +7,7 @@ const {
 
 module.exports = (cache) => ({
   fetchMetadataFromURL (url) {
-    return cache.withCache(['metadata', url], 0, async () => {
+    return cache.withCache(['metadata', url], 0, () => {
       const urlParsed = new URL(url)
 
       for (const fetcher in metadata) {

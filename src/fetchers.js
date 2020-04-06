@@ -31,7 +31,7 @@ function spawn (cmd, args) {
   })
 }
 
-async function unpackGeneric (file, out, name) {
+function unpackGeneric (file, out, name) {
   const split = file.split('.')
   const ext = split.pop()
   const tar = split.pop() === 'tar'
@@ -58,7 +58,6 @@ module.exports = {
   metadata: {
     github: {
       isValid (url, urlParsed) {
-        console.log(url)
         return urlParsed.host === 'github.com' && !url.endsWith('.git')
       },
       async fetch (url, urlParsed) {
@@ -71,7 +70,7 @@ module.exports = {
         return urlParsed.host === 'content.minetest.net' && urlParsed.pathname.startsWith('/packages/')
       },
       async fetch (url, urlParsed) {
-        const [, user, id] = urlParsed.pathname.split('/')
+        const [,, user, id] = urlParsed.pathname.split('/')
 
         const pkg = await (await fetch(`https://content.minetest.net/api/packages/${user}/${id}/`)).json()
         const releases = await (await fetch(`https://content.minetest.net/api/packages/${user}/${id}/releases/`)).json()

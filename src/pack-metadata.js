@@ -2,9 +2,19 @@
 
 const fs = require('fs')
 const path = require('path')
+const glob = require('glob')
 
 const exists = (...a) => fs.existsSync(path.join(...a))
 const read = (...a) => String(fs.readFileSync(path.join(...a)))
+const findFiles = (folder, files) => glob(`${folder}/**/${files}`)
+const getMatches = (re, str) => {
+  const out = []
+  let result
+  while ((result = re.exec(str)) !== null) {
+    out.push(result)
+  }
+  return out
+}
 
 const KV_RE = /^([a-z0-9]+) *= *(.+)$/gmi
 const COMMA_RE = / *, */gmi
@@ -13,7 +23,7 @@ const debug = require('debug')
 
 function readKV (content) {
   return getMatches(content, KV_RE).reduce((line, out) => {
-    const [_, key, value] = line
+    const [, key, value] = line
 
     if (value.endsWith('depends')) {
       out[key] = value.split(COMMA_RE)
@@ -69,7 +79,7 @@ function getFullPackMeta (folder) {
     if (exists(folder, 'modpack.conf')) {
       const kv = readKV(folder, 'modpack.conf')
 
-      if (kv.name) { meta.name = kv.name }
+      if (kv.name) { meta.id = kv.name }
       if (kv.description) { meta.description = kv.description }
     }
   } else {
@@ -102,7 +112,7 @@ function parseGame (folder) {
   if (exists(folder, 'game.conf')) {
     const kv = readKV(folder, 'game.conf')
 
-    if (kv.name) { out.name = kv.name }
+    if (kv.name) { out.id = kv.name }
     if (kv.description) { out.description = kv.description }
   }
 
