@@ -2,6 +2,8 @@
 
 > heavily WIP
 
+# TODO: rewrite so games have mods aswell, that way we can inherit games
+
 # Creating a pack
 
 # 0. Sources
@@ -113,7 +115,7 @@ description.txt:
 Description, single line, raw text
 ```
 
-license.text:
+license.txt:
 
 ```
 License
@@ -150,6 +152,6 @@ mtm install ID
 mtm list ID
 mtm uninstall ID
 mtm check # checks if all optional_deps and deps_resolved things are actually used
-mtm build # downloads everything, builds a bundle
-mtm play # launches mintest with the bundle
+mtm build # downloads everything, builds a game
+mtm play # launches mintest with the game
 ```

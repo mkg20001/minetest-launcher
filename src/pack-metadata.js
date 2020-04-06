@@ -11,6 +11,20 @@ const COMMA_RE = / *, */gmi
 
 const debug = require('debug')
 
+function readKV (content) {
+  return getMatches(content, KV_RE).reduce((line, out) => {
+    const [_, key, value] = line
+
+    if (value.endsWith('depends')) {
+      out[key] = value.split(COMMA_RE)
+    } else {
+      out[key] = value
+    }
+
+    return out
+  }, {})
+}
+
 function getMetadata (folder) {
   const log = debug(`mtm:meta:${folder}`)
 
@@ -34,17 +48,7 @@ function getMetadata (folder) {
   }
 
   if (exists(folder, 'mod.conf')) {
-    const kv = getMatches(read(folder, 'mod.conf'), KV_RE).reduce((line, out) => {
-      const [_, key, value] = line
-
-      if (value.endsWith('depends')) {
-        out[key] = value.split(COMMA_RE)
-      } else {
-        out[key] = value
-      }
-
-      return out
-    }, {})
+    const kv = readKV(read(folder, 'mod.conf'))
 
     log('kv %o', kv)
 
@@ -59,13 +63,52 @@ function getMetadata (folder) {
 function getFullPackMeta (folder) {
   const meta = getMetadata(folder)
 
-  if (exists(folder, 'modpack.txt')) {
+  if (exists(folder, 'modpack.txt') || exists('modpack.conf')) {
     meta.provides = findFiles(folder, 'init.lua').map(file => path.dirname(file)).map(getMetadata)
+
+    if (exists(folder, 'modpack.conf')) {
+      const kv = readKV(folder, 'modpack.conf')
+
+      if (kv.name) { meta.name = kv.name }
+      if (kv.description) { meta.description = kv.description }
+    }
   } else {
     meta.provides = true
   }
 
   return meta
+}
+
+function identifySubMods (folder) {
+  const files = [].concat(
+    findFiles(folder, 'init.lua'),
+    findFiles(folder, 'mod.conf'),
+    findFiles(folder, 'modpack.conf'),
+    findFiles(folder, 'modpack.txt'),
+    findFiles(folder, 'description.txt')
+  )
+
+  const seen = {}
+  return files.map(f => path.dirname(f)).filter(folder => seen[folder] ? false : (seen[folder] = true))
+}
+
+function parseGame (folder) {
+  const out = {}
+
+  if (exists(folder, 'description.txt')) {
+    out.description = read(folder, 'description.txt')
+  }
+
+  if (exists(folder, 'game.conf')) {
+    const kv = readKV(folder, 'game.conf')
+
+    if (kv.name) { out.name = kv.name }
+    if (kv.description) { out.description = kv.description }
+  }
+
+  out.sub = identifySubMods(folder).map(getFullPackMeta) // TODO: this gets all mods and modpacks, we need some way to exclude stuff after thje first level
+
+  return out
 }
 
 function parseMTMS (file) {
@@ -86,5 +129,6 @@ function parseMTMS (file) {
 module.exports = {
   getMetadata,
   getFullPackMeta,
+  parseGame,
   parseMTMS
 }
