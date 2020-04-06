@@ -15,7 +15,7 @@ function getMetadata (folder) {
   const log = debug(`mtm:meta:${folder}`)
 
   const out = {
-    id: null,
+    id: path.dirname(folder),
     description: null,
     depends: [],
     optionalDepends: []
@@ -52,8 +52,39 @@ function getMetadata (folder) {
     if (kv.depends) { out.depends = kv.depends }
     if (kv.optional_depends) { out.optionalDepends = kv.optional_depends }
   }
+
+  return out
+}
+
+function getFullPackMeta (folder) {
+  const meta = getMetadata(folder)
+
+  if (exists(folder, 'modpack.txt')) {
+    meta.provides = findFiles(folder, 'init.lua').map(file => path.dirname(file)).map(getMetadata)
+  } else {
+    meta.provides = true
+  }
+
+  return meta
+}
+
+function parseMTMS (file) {
+  let cursor = null
+
+  return read(file).map(s => s.trim()).filter(s => s && !s.startsWith('#')).reduce((line, out) => {
+    if (line.startsWith('!')) {
+      cursor = line.substr(1)
+      out[cursor] = []
+    } else {
+      out[cursor].push(line)
+    }
+
+    return out
+  }, {})
 }
 
 module.exports = {
-  getMetadata
+  getMetadata,
+  getFullPackMeta,
+  parseMTMS
 }

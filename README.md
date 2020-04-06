@@ -33,7 +33,7 @@ This will pull all the mods, get the metadata (based on url/url type - .tar.gz, 
           "description": "Bla,,",
           "depends": ["ids"],
           "optionalDepends": ["ids"],
-          "dl": "url",
+          "dl": { "type": "genericFile", "args": ["url"] },
 
           "provides": {
             "<id>": {
@@ -51,7 +51,7 @@ This will pull all the mods, get the metadata (based on url/url type - .tar.gz, 
       "versions": {
         "<version>": {
           "description": "Bla,,",
-          "dl": "url",
+          "dl": { "type": "genericFile", "args": ["url"] },
           "license": "..."
         }
       }
